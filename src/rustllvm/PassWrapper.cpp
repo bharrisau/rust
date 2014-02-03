@@ -43,6 +43,11 @@ LLVMInitializePasses() {
   initializeInstCombine(Registry);
   initializeInstrumentation(Registry);
   initializeTarget(Registry);
+
+  // Initialize our pass
+  PassInfo *PI = new PassInfo("Rust Stack Safety Pass", "rustsafestack", & RustSafeStack::ID,
+                  PassInfo::NormalCtor_t(callDefaultCtor<RustSafeStack>), false, false);
+  Registry.registerPass(*PI, true);
 }
 
 extern "C" bool
@@ -174,8 +179,17 @@ LLVMRustWriteOutputFile(LLVMTargetMachineRef Target,
   formatted_raw_ostream FOS(OS);
 
   unwrap(Target)->addPassesToEmitFile(*PM, FOS, FileType, false);
-  PM->run(*unwrap(M));
-  return true;
+
+  StringRef SR("rustsafestack");
+  PassRegistry *PR = PassRegistry::getPassRegistry();
+
+  const PassInfo *PI = PR->getPassInfo(SR);
+  if (PI) {
+      PM->add(PI->createPass());
+      PM->run(*unwrap(M));
+      return true;
+  }
+  return false;
 }
 
 extern "C" void

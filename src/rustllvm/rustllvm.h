@@ -51,6 +51,9 @@
 #include "llvm-c/BitReader.h"
 #include "llvm-c/ExecutionEngine.h"
 #include "llvm-c/Object.h"
+#include "llvm/CodeGen/MachineFunctionPass.h"
+#include "llvm/CodeGen/MachineLoopInfo.h"
+#include "llvm/CodeGen/MachineDominators.h"
 
 // Used by RustMCJITMemoryManager::getPointerToNamedFunction()
 // to get around glibc issues. See the function for more information.
@@ -61,3 +64,15 @@
 #endif
 
 extern const char* LLVMRustError;
+
+namespace llvm {
+  class RustSafeStack : public MachineFunctionPass {
+  public:
+    static char ID;
+    RustSafeStack() : MachineFunctionPass(ID) {
+      //initializePEIPass(*PassRegistry::getPassRegistry());
+    }
+    virtual void getAnalysisUsage(AnalysisUsage &AU) const;
+    bool runOnMachineFunction(MachineFunction &Fn);
+  };
+}
