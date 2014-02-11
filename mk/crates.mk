@@ -51,7 +51,7 @@
 
 TARGET_CRATES := std extra green rustuv native flate arena glob term semver \
                  uuid serialize sync getopts collections
-HOST_CRATES := syntax rustc rustdoc fourcc
+HOST_CRATES := syntax rustc rustdoc fourcc peg
 CRATES := $(TARGET_CRATES) $(HOST_CRATES)
 TOOLS := compiletest rustdoc rustc
 
