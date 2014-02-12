@@ -32,39 +32,53 @@ TODO: [Calculator example for the docs]
 
 extern mod syntax;
 
-use syntax::ast::{Name, TokenTree};
+use syntax::ast::{Name, TokenTree, Ident};
 use syntax::codemap::Span;
 use syntax::ext::base::{SyntaxExtension,
-                        BasicMacroExpander,
-                        NormalTT,
+                        BasicIdentMacroExpander,
+                        IdentTT,
                         MacResult,
                         MRItem,
                         ExtCtxt};
 use syntax::parse::token;
-use syntax::parse::token::str_to_ident;`
+use syntax::parse::token::str_to_ident;
 
 #[macro_registrar]
 #[doc(hidden)]
 pub fn macro_registrar(register: |Name, SyntaxExtension|) {
     register(token::intern("parse_peg"),
-             NormalTT(~BasicMacroExpander {
+             IdentTT(~BasicIdentMacroExpander {
                 expander: expand_peg,
                 span: None
              },
              None));
 }
 
+// Convert the following
+//    match additive {
+//        $left:multiplicative "+" $right:additive => left + right,
+//        multiplicative                           => ()
+//    }
+// into
+//
+
 #[allow(unused_variable)]
-fn expand_peg(cx: &mut ExtCtxt, sp: Span, tts: &[TokenTree]) -> MacResult {
-    let name = str_to_ident("test_name");
+fn expand_peg(cx: &mut ExtCtxt, sp: Span, ident: Ident,
+                tts: ~[TokenTree]) -> MacResult {
     let t = quote_item!(cx,
-        pub mod $name {
-            struct parser_name {
+        mod $ident {
+            pub struct Parser {
                 id: uint
             }
 
-            impl parser_name {
-                pub fn parse(&self) -> uint {
+            impl Parser {
+                pub fn new() -> Parser {
+                    Parser {
+                        id: 0
+                    }
+                }
+
+                pub fn parse(&self, input: ~str) -> uint {
                     self.id
                 }
             }
