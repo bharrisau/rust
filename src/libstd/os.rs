@@ -1308,6 +1308,9 @@ pub mod consts {
     #[cfg(target_os = "win32")]
     pub use os::consts::win32::*;
 
+    #[cfg(target_os = "unknown")]
+    pub use os::consts::unknown::*;
+
     #[cfg(target_arch = "x86")]
     pub use os::consts::x86::*;
 
@@ -1467,6 +1470,15 @@ pub mod consts {
         /// Specifies the file extension, if any, used for executable binaries
         /// on this platform: in this case, `exe`.
         pub static EXE_EXTENSION: &'static str = "exe";
+    }
+
+    pub mod unknown {
+        pub static SYSNAME: &'static str = "unknown";
+        pub static DLL_PREFIX: &'static str = "";
+        pub static DLL_SUFFIX: &'static str = "";
+        pub static DLL_EXTENSION: &'static str = "";
+        pub static EXE_SUFFIX: &'static str = "";
+        pub static EXE_EXTENSION: &'static str = "";
     }
 
     /// Constants for Intel Architecture-32 (x86) architectures.
