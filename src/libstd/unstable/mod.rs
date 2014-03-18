@@ -13,6 +13,7 @@
 use prelude::*;
 use libc::uintptr_t;
 
+#[cfg(not(target_os = "unknown"))]
 pub mod dynamic_lib;
 
 pub mod finally;

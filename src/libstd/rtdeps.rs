@@ -28,6 +28,11 @@ extern {}
 #[link(name = "pthread")]
 extern {}
 
+#[cfg(target_os = "unknown")]
+#[link(name = "c")]
+#[link(name = "m")]
+extern {}
+
 #[cfg(target_os = "android")]
 #[link(name = "dl")]
 #[link(name = "log")]

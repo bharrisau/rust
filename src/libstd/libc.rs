@@ -232,7 +232,7 @@ pub mod types {
 
     // Standard types that are scalar but vary by OS and arch.
 
-    #[cfg(target_os = "linux")]
+    #[cfg(target_os = "linux")] #[cfg(target_os = "unknown")]
     #[cfg(target_os = "android")]
     pub mod os {
         pub mod common {
@@ -1848,7 +1848,7 @@ pub mod consts {
     }
 
 
-    #[cfg(target_os = "linux")]
+    #[cfg(target_os = "linux")] #[cfg(target_os = "unknown")]
     #[cfg(target_os = "android")]
     pub mod os {
         pub mod c95 {
@@ -2354,6 +2354,10 @@ pub mod consts {
             #[cfg(target_os = "android")]
             pub static PTHREAD_STACK_MIN: size_t = 8192;
 
+            // TODO: This is just an arbitrary value.
+            #[cfg(target_os = "unknown")]
+            pub static PTHREAD_STACK_MIN: size_t = 4096;
+
             #[cfg(target_arch = "arm", target_os = "linux")]
             #[cfg(target_arch = "x86", target_os = "linux")]
             #[cfg(target_arch = "x86_64", target_os = "linux")]
@@ -2457,7 +2461,7 @@ pub mod consts {
             pub static MAP_NONBLOCK : c_int = 0x020000;
             pub static MAP_STACK : c_int = 0x040000;
         }
-        #[cfg(target_os = "linux")]
+        #[cfg(target_os = "linux")] #[cfg(target_os = "unknown")]
         pub mod sysconf {
             use libc::types::os::arch::c95::c_int;
 
@@ -3604,7 +3608,7 @@ pub mod funcs {
     }
 
 
-    #[cfg(target_os = "linux")]
+    #[cfg(target_os = "linux")] #[cfg(target_os = "unknown")]
     #[cfg(target_os = "android")]
     #[cfg(target_os = "macos")]
     #[cfg(target_os = "freebsd")]
@@ -3618,7 +3622,7 @@ pub mod funcs {
                 pub fn chmod(path: *c_char, mode: mode_t) -> c_int;
                 pub fn fchmod(fd: c_int, mode: mode_t) -> c_int;
 
-                #[cfg(target_os = "linux")]
+                #[cfg(target_os = "linux")] #[cfg(target_os = "unknown")]
                 #[cfg(target_os = "freebsd")]
                 #[cfg(target_os = "android")]
                 pub fn fstat(fildes: c_int, buf: *mut stat) -> c_int;
@@ -3630,7 +3634,7 @@ pub mod funcs {
                 pub fn mkdir(path: *c_char, mode: mode_t) -> c_int;
                 pub fn mkfifo(path: *c_char, mode: mode_t) -> c_int;
 
-                #[cfg(target_os = "linux")]
+                #[cfg(target_os = "linux")] #[cfg(target_os = "unknown")]
                 #[cfg(target_os = "freebsd")]
                 #[cfg(target_os = "android")]
                 pub fn stat(path: *c_char, buf: *mut stat) -> c_int;
@@ -3808,7 +3812,7 @@ pub mod funcs {
         }
     }
 
-    #[cfg(target_os = "linux")]
+    #[cfg(target_os = "linux")] #[cfg(target_os = "unknown")]
     #[cfg(target_os = "android")]
     #[cfg(target_os = "macos")]
     #[cfg(target_os = "freebsd")]
@@ -3818,7 +3822,7 @@ pub mod funcs {
             use libc::types::os::arch::posix01::stat;
 
             extern {
-                #[cfg(target_os = "linux")]
+                #[cfg(target_os = "linux")] #[cfg(target_os = "unknown")]
                 #[cfg(target_os = "freebsd")]
                 #[cfg(target_os = "android")]
                 pub fn lstat(path: *c_char, buf: *mut stat) -> c_int;
@@ -3841,7 +3845,7 @@ pub mod funcs {
 
                 pub fn fsync(fd: c_int) -> c_int;
 
-                #[cfg(target_os = "linux")]
+                #[cfg(target_os = "linux")] #[cfg(target_os = "unknown")]
                 #[cfg(target_os = "android")]
                 pub fn fdatasync(fd: c_int) -> c_int;
 
@@ -3928,7 +3932,7 @@ pub mod funcs {
 
 
     #[cfg(target_os = "win32")]
-    #[cfg(target_os = "linux")]
+    #[cfg(target_os = "linux")] #[cfg(target_os = "unknown")]
     #[cfg(target_os = "android")]
     #[cfg(target_os = "macos")]
     #[cfg(target_os = "freebsd")]
@@ -4043,7 +4047,7 @@ pub mod funcs {
     }
 
 
-    #[cfg(target_os = "linux")]
+    #[cfg(target_os = "linux")] #[cfg(target_os = "unknown")]
     #[cfg(target_os = "android")]
     pub mod bsd44 {
         use libc::types::common::c95::{c_void};
@@ -4077,7 +4081,7 @@ pub mod funcs {
     pub mod extra {
     }
 
-    #[cfg(target_os = "linux")]
+    #[cfg(target_os = "linux")] #[cfg(target_os = "unknown")]
     #[cfg(target_os = "android")]
     pub mod extra {
     }

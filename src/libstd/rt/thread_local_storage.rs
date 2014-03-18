@@ -45,6 +45,7 @@ pub unsafe fn destroy(key: Key) {
 type pthread_key_t = ::libc::c_ulong;
 
 #[cfg(target_os="linux")]
+#[cfg(target_os="unknown")]
 #[cfg(target_os="freebsd")]
 #[cfg(target_os="android")]
 #[allow(non_camel_case_types)] // foreign type

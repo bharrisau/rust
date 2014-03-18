@@ -416,6 +416,12 @@ pub fn dll_filename(base: &str) -> ~str {
 /// running. If any failure occurs, None is returned.
 pub fn self_exe_name() -> Option<Path> {
 
+    // TODO: Not sure how to get this from newlib.
+    #[cfg(target_os = "unknown")]
+    fn load_self() -> Option<~[u8]> {
+        None
+    }
+
     #[cfg(target_os = "freebsd")]
     fn load_self() -> Option<~[u8]> {
         unsafe {
@@ -621,6 +627,7 @@ pub fn change_dir(p: &Path) -> bool {
 #[cfg(unix)]
 /// Returns the platform-specific value of errno
 pub fn errno() -> int {
+    #[cfg(target_os = "unknown")]
     #[cfg(target_os = "macos")]
     #[cfg(target_os = "freebsd")]
     fn errno_location() -> *c_int {
@@ -667,6 +674,7 @@ pub fn errno() -> uint {
 pub fn last_os_error() -> ~str {
     #[cfg(unix)]
     fn strerror() -> ~str {
+        #[cfg(target_os = "unknown")]
         #[cfg(target_os = "macos")]
         #[cfg(target_os = "android")]
         #[cfg(target_os = "freebsd")]
@@ -813,6 +821,7 @@ fn real_args_as_bytes() -> ~[~[u8]] {
 }
 
 #[cfg(target_os = "linux")]
+#[cfg(target_os = "unknown")]
 #[cfg(target_os = "android")]
 #[cfg(target_os = "freebsd")]
 fn real_args_as_bytes() -> ~[~[u8]] {

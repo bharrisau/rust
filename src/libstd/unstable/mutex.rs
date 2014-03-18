@@ -281,6 +281,20 @@ mod imp {
         pub static PTHREAD_COND_INITIALIZER: pthread_cond_t =
             0 as pthread_cond_t;
     }
+    
+    #[cfg(target_os = "unknown")]
+    mod os {
+        use libc;
+
+        // Based on pthread headers from newlib
+        pub type pthread_mutex_t = *libc::c_uint;
+        pub type pthread_cond_t = *libc::c_uint;
+
+        pub static PTHREAD_MUTEX_INITIALIZER: pthread_mutex_t =
+            0 as pthread_mutex_t;
+        pub static PTHREAD_COND_INITIALIZER: pthread_cond_t =
+            0 as pthread_cond_t;
+    }
 
     #[cfg(target_os = "macos")]
     mod os {
