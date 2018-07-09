@@ -1087,6 +1087,7 @@ extern "rust-intrinsic" {
 
     /// Returns the square root of an `f32`
     pub fn sqrtf32(x: f32) -> f32;
+    pub fn sqrtf32_fast(x: f32) -> f32;
     /// Returns the square root of an `f64`
     pub fn sqrtf64(x: f64) -> f64;
 

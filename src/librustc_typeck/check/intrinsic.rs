@@ -207,7 +207,7 @@ pub fn check_intrinsic_type<'a, 'tcx>(tcx: TyCtxt<'a, 'tcx, 'tcx>,
                ],
                tcx.mk_nil())
             }
-            "sqrtf32" => (0, vec![ tcx.types.f32 ], tcx.types.f32),
+            "sqrtf32" | "sqrtf32_fast" => (0, vec![ tcx.types.f32 ], tcx.types.f32),
             "sqrtf64" => (0, vec![ tcx.types.f64 ], tcx.types.f64),
             "powif32" => {
                (0,

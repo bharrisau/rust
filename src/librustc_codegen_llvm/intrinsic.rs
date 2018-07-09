@@ -37,7 +37,7 @@ use std::iter;
 
 fn get_simple_intrinsic(cx: &CodegenCx, name: &str) -> Option<ValueRef> {
     let llvm_name = match name {
-        "sqrtf32" => "llvm.sqrt.f32",
+        "sqrtf32" | "sqrtf32_fast" => "llvm.sqrt.f32",
         "sqrtf64" => "llvm.sqrt.f64",
         "powif32" => "llvm.powi.f32",
         "powif64" => "llvm.powi.f64",
@@ -111,9 +111,14 @@ pub fn codegen_intrinsic_call<'a, 'tcx>(bx: &Builder<'a, 'tcx>,
     let simple = get_simple_intrinsic(cx, name);
     let llval = match name {
         _ if simple.is_some() => {
-            bx.call(simple.unwrap(),
+            let c = bx.call(simple.unwrap(),
                      &args.iter().map(|arg| arg.immediate()).collect::<Vec<_>>(),
-                     None)
+                     None);
+            if name.ends_with("_fast") {
+                unsafe { llvm::LLVMRustSetHasUnsafeAlgebra(c) };
+            }
+            c
+
         }
         "unreachable" => {
             return;
