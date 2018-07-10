@@ -27,6 +27,7 @@ use std::ffi::CString;
 use std::ops::Range;
 use std::ptr;
 use syntax_pos::Span;
+use syntax_pos::symbol::Symbol;
 
 // All Builders must have an llfn associated with them
 #[must_use]
@@ -104,6 +105,14 @@ impl<'a, 'tcx> Builder<'a, 'tcx> {
     pub fn llbb(&self) -> BasicBlockRef {
         unsafe {
             llvm::LLVMGetInsertBlock(self.llbuilder)
+        }
+    }
+
+    pub fn set_math_mode(&self, mode: Option<Symbol>) {
+        if mode.is_some() {
+            unsafe {
+                llvm::LLVMRustSetFnMathFlags(self.llbuilder);
+            }
         }
     }
 

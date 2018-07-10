@@ -325,6 +325,19 @@ extern "C" void LLVMRustSetHasUnsafeAlgebra(LLVMValueRef V) {
   }
 }
 
+// set fast math flags for a function
+//extern "C" void LLVMRustSetFnMathFlags(LLVMBuilderRef B, FastMathFlags flags) {
+extern "C" void LLVMRustSetFnMathFlags(LLVMBuilderRef B) {
+  FastMathFlags FMF;
+  FMF.setFast();
+#if LLVM_VERSION_GE(3, 8)
+  unwrap(B)->setFastMathFlags(FMF);
+  //unwrap(B)->getFastMathFlags().setFast();
+#else
+  unwrap(B)->SetFastMathFlags(FMF);
+#endif
+}
+
 extern "C" LLVMValueRef
 LLVMRustBuildAtomicLoad(LLVMBuilderRef B, LLVMValueRef Source, const char *Name,
                         LLVMAtomicOrdering Order) {

@@ -1921,6 +1921,16 @@ fn codegen_fn_attrs<'a, 'tcx>(tcx: TyCtxt<'a, 'tcx, 'tcx>, id: DefId) -> Codegen
                 tcx.sess.span_err(attr.span, msg);
             }
             from_target_feature(tcx, id, attr, &whitelist, &mut codegen_fn_attrs.target_features);
+        } else if attr.check_name("math_mode") {
+            if tcx.fn_sig(id).unsafety() == Unsafety::Normal {
+                let msg = "#[math_mode(..)] can only be applied to \
+                           `unsafe` function";
+                tcx.sess.span_err(attr.span, msg);
+            }
+            codegen_fn_attrs.math_mode = attr.value_str();
+            //if let Some(val) = attr.value_str() {
+            //    codegen_fn_attrs.math_mode = Some(from_math_mode(tcx, id, &val.as_str()));
+            //}
         } else if attr.check_name("linkage") {
             if let Some(val) = attr.value_str() {
                 codegen_fn_attrs.linkage = Some(linkage_by_name(tcx, id, &val.as_str()));

@@ -2259,6 +2259,7 @@ pub struct CodegenFnAttrs {
     pub export_name: Option<Symbol>,
     pub target_features: Vec<Symbol>,
     pub linkage: Option<Linkage>,
+    pub math_mode: Option<Symbol>,
 }
 
 bitflags! {
@@ -2283,6 +2284,7 @@ impl CodegenFnAttrs {
             export_name: None,
             target_features: vec![],
             linkage: None,
+            math_mode: None,
         }
     }
 

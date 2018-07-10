@@ -186,6 +186,13 @@ pub fn from_fn_attrs(cx: &CodegenCx, llfn: ValueRef, id: DefId) {
             cstr("target-features\0"), &val);
     }
 
+
+    if codegen_fn_attrs.math_mode.is_some() {
+        llvm::AddFunctionAttrStringValue(
+            llfn, llvm::AttributePlace::Function,
+            cstr("unsafe-fp-math\0"), cstr("true\0"));
+    }
+
     // Note that currently the `wasm-import-module` doesn't do anything, but
     // eventually LLVM 7 should read this and ferry the appropriate import
     // module to the output file.

@@ -1013,6 +1013,7 @@ extern "C" {
     pub fn LLVMBuildFNeg(B: BuilderRef, V: ValueRef, Name: *const c_char) -> ValueRef;
     pub fn LLVMBuildNot(B: BuilderRef, V: ValueRef, Name: *const c_char) -> ValueRef;
     pub fn LLVMRustSetHasUnsafeAlgebra(Instr: ValueRef);
+    pub fn LLVMRustSetFnMathFlags(B: BuilderRef);
 
     // Memory
     pub fn LLVMBuildAlloca(B: BuilderRef, Ty: TypeRef, Name: *const c_char) -> ValueRef;

@@ -771,6 +771,10 @@ impl<'a, 'tcx> FunctionCx<'a, 'tcx> {
 
     pub fn build_block(&self, bb: mir::BasicBlock) -> Builder<'a, 'tcx> {
         let bx = Builder::with_cx(self.cx);
+
+        let math_mode = self.cx.tcx.codegen_fn_attrs(self.instance.def.def_id()).math_mode;
+        bx.set_math_mode(math_mode);
+
         bx.position_at_end(self.blocks[bb]);
         bx
     }

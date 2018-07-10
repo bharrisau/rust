@@ -962,6 +962,7 @@ pub const BUILTIN_ATTRIBUTES: &'static [(&'static str, AttributeType, AttributeG
                                   is an experimental feature",
                                  cfg_fn!(naked_functions))),
     ("target_feature", Whitelisted, Ungated),
+    ("math_mode", Whitelisted, Ungated),
     ("export_name", Whitelisted, Ungated),
     ("inline", Whitelisted, Ungated),
     ("link", Whitelisted, Ungated),
